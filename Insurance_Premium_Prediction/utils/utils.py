@@ -1,56 +1,44 @@
-import os
-import sys
 import pickle
-import numpy as np
-import pandas as pd
-from Insurance_Premium_Prediction.exception import customexception
 from Insurance_Premium_Prediction.logger import logging
 
-from sklearn.metrics import r2_score, mean_absolute_error,mean_squared_error
 
 def save_object(file_path, obj):
+    """
+    Save Python object to a file using pickle.
+    """
     try:
-        dir_path = os.path.dirname(file_path)
-
-        os.makedirs(dir_path, exist_ok=True)
-
-        with open(file_path, "wb") as file_obj:
-            pickle.dump(obj, file_obj)
-
+        with open(file_path, 'wb') as f:
+            pickle.dump(obj, f)
+        logging.info(f"Object saved to {file_path}")
     except Exception as e:
-        raise customexception(e, sys)
-    
-def evaluate_model(X_train,y_train,X_test,y_test,models):
-    try:
-        report = {}
-        for i in range(len(models)):
-            model = list(models.values())[i]
-            # Train model
-            model.fit(X_train,y_train)
+        logging.error(f"Error occurred while saving object to {file_path}: {e}")
 
-            
 
-            # Predict Testing data
-            y_test_pred =model.predict(X_test)
-
-            # Get R2 scores for train and test data
-            #train_model_score = r2_score(ytrain,y_train_pred)
-            test_model_score = r2_score(y_test,y_test_pred)
-
-            report[list(models.keys())[i]] =  test_model_score
-
-        return report
-
-    except Exception as e:
-        logging.info('Exception occured during model training')
-        raise customexception(e,sys)
-    
 def load_object(file_path):
+    """
+    Load Python object from a file using pickle.
+    """
     try:
-        with open(file_path,'rb') as file_obj:
-            return pickle.load(file_obj)
+        with open(file_path, 'rb') as f:
+            obj = pickle.load(f)
+        logging.info(f"Object loaded from {file_path}")
+        return obj
     except Exception as e:
-        logging.info('Exception Occured in load_object function utils')
-        raise customexception(e,sys)
+        logging.error(f"Error occurred while loading object from {file_path}: {e}")
+        raise e
 
-    
+
+def evaluate_model(X_train, y_train, X_test, y_test, models):
+    """
+    Evaluate multiple models on the given training and testing data.
+    """
+    model_report = {}
+    for name, model in models.items():
+        try:
+            model.fit(X_train, y_train)
+            score = model.score(X_test, y_test)
+            model_report[name] = score
+            logging.info(f"Model: {name}, Score: {score}")
+        except Exception as e:
+            logging.error(f"Error occurred while evaluating model {name}: {e}")
+    return model_report
