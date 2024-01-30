@@ -18,6 +18,8 @@ class InsurancePremiumPredictor:
             preprocessor = load_object(preprocessor_path)
             model = load_object(model_path)
             
+            logging.info("Column names before transformation: %s", features.columns)
+            
             scaled_data = preprocessor.transform(features)
             
             pred = model.predict(scaled_data)
