@@ -1,10 +1,20 @@
-from Insurance_Premium_Prediction.components.data_ingestion import DataIngestion
 import os 
 import sys
+import pandas as pd
+from Insurance_Premium_Prediction.components.data_ingestion import DataIngestion
 from Insurance_Premium_Prediction.logger import logging
 from Insurance_Premium_Prediction.exception import customexception
-import pandas as pd
+from Insurance_Premium_Prediction.components.model_trainer import InsuranceModelTrainer
+from Insurance_Premium_Prediction.components.data_transformation import DataTransformation
 
 obj = DataIngestion()
 
-obj.initiate_data_ingestion()
+train_data_path,test_data_path = obj.initiate_data_ingestion()
+
+data_transformation=DataTransformation()
+
+train_arr,test_arr=data_transformation.initialize_data_transformation(train_data_path,test_data_path)
+
+
+model_trainer_obj=InsuranceModelTrainer()
+model_trainer_obj.initate_model_training(train_arr,test_arr)
