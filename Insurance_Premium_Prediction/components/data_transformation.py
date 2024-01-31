@@ -14,14 +14,17 @@ from sklearn.preprocessing import OrdinalEncoder, StandardScaler
 
 from Insurance_Premium_Prediction.utils.utils import save_object
 
+# Configuration class for data transformation
 @dataclass
 class DataTransformationConfig:
     preprocessor_obj_file_path = os.path.join('artifacts', 'preprocessor.pkl')
 
+# Data transformation class
 class DataTransformation:
     def __init__(self):
         self.data_transformation_config = DataTransformationConfig()
 
+    # Method to get data transformation pipeline
     def get_data_transformation(self):
         try:
             logging.info('Data Transformation initiated')
@@ -32,7 +35,7 @@ class DataTransformation:
 
             logging.info('Pipeline Initiated')
 
-            ## Numerical Pipeline
+            # Numerical Pipeline
             num_pipeline = Pipeline(
                 steps=[
                     ('imputer', SimpleImputer(strategy='median')),
@@ -57,15 +60,16 @@ class DataTransformation:
             return preprocessor
 
         except Exception as e:
-            logging.info("Exception occurred in the initiate_datatransformation")
+            logging.error("Exception occurred in the get_data_transformation")
             raise customexception(e, sys)
 
+    # Method to initialize data transformation
     def initialize_data_transformation(self, train_path, test_path):
         try:
             train_df = pd.read_csv(train_path)
             test_df = pd.read_csv(test_path)
 
-            logging.info("read train and test data complete")
+            logging.info("Read train and test data complete")
             logging.info(f'Train Dataframe Head : \n{train_df.head().to_string()}')
             logging.info(f'Test Dataframe Head : \n{test_df.head().to_string()}')
 
@@ -93,10 +97,10 @@ class DataTransformation:
                 obj=preprocessing_obj
             )
 
-            logging.info("preprocessing pickle file saved")
+            logging.info("Preprocessing pickle file saved")
 
             return train_arr, test_arr
 
         except Exception as e:
-            logging.info("Exception occurred in the initialize_data_transformation")
+            logging.error("Exception occurred in the initialize_data_transformation")
             raise customexception(e, sys)

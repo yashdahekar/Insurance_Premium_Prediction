@@ -1,9 +1,9 @@
 import os
 from pathlib import Path
 
-package_name="Insurance_Premium_Prediction"
+package_name = "Insurance_Premium_Prediction"
 
-list_of_files=[
+list_of_files = [
     "github/workflows/.gitkeep",
     f"{package_name}/__init__.py",
     f"{package_name}/components/__init__.py",
@@ -23,24 +23,18 @@ list_of_files=[
     "init_setup.sh",
 ]
 
-
-# here will create a directory
-
+# Creating directories if they don't exist
 for filepath in list_of_files:
-    filepath=Path(filepath)
-    filedir,filename=os.path.split(filepath)
+    filepath = Path(filepath)
+    filedir, filename = os.path.split(filepath)
 
-    """ how exist_ok works:if "directory" already exists, 
-    os.makedirs() will not raise an error, and it will do nothing. 
-    If "my_directory" doesn't exist, it will create the directory.
-    """
+    # If directory doesn't exist, create it
     if filedir != "":
-        os.makedirs(filedir,exist_ok=True)
+        os.makedirs(filedir, exist_ok=True)
 
+    # Creating empty file if it doesn't exist or empty
     if (not os.path.exists(filepath)) or (os.path.getsize(filepath) == 0):
-        with open(filepath,"w") as f:
+        with open(filepath, "w") as f:
             pass
     else:
-        print("file already exists")
-
-# here will use the file handling
+        print("File already exists")
