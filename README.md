@@ -1,5 +1,9 @@
 # Insurance Premium Prediction
 
+## Deployed Project
+The project has been successfully deployed on AWS using a Docker image. You can access it using the following link:
+- [Insurance Premium Prediction](https://twxp3cdfti.ap-southeast-2.awsapprunner.com/)
+
 ## Overview
 Insurance Premium Prediction is a comprehensive project designed to forecast insurance premiums by leveraging machine learning algorithms. It takes into account various factors such as age, BMI, number of children, gender, smoking status, and region to provide accurate predictions. This project utilizes historical data analysis and machine learning techniques to offer insights into future insurance premium trends.
 
@@ -86,4 +90,3 @@ The project employs various machine learning algorithms for insurance premium pr
 
 ## Author
 This project was created by Yash Dahekar. For any inquiries or feedback, please contact [yashdahekar@gmail.com](mailto:yashdahekar@gmail.com).
-
